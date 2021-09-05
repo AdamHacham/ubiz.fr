@@ -1,5 +1,4 @@
 const User = require('../models/User')
-
 /**
  *
  * @param {Object} userInput - It is user input with all variables for user model
