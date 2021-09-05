@@ -1,8 +1,12 @@
 const express = require('express')
+require('./utils/db.config')
 const app = express()
 
+app.set('view engine', 'ejs')
+app.use('/assets', express.static('public'))
+
 app.get('/', (req, res) => {
-    return res.send('Hello!')
+    return res.render('index')
 })
 
 app.listen(3000, () => {
