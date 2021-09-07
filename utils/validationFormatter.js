@@ -3,7 +3,6 @@ const joiErrorFormatter = (rawErrors) => {
   const details = rawErrors.details
   details.map(d => {
     errors[d.path] = [d.message]
-
   })
   return errors
 }

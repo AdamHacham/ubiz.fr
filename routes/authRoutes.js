@@ -9,7 +9,7 @@ const { joiErrorFormatter, mongooseErrorFormatter } = require('../utils/validati
  * Shows page for registration
  */
 router.get('/register', (req, res) => {
-  return res.render('register', { message: null })
+  return res.render('register', { message: {}, formData: {}, errors: {} })
 })
 
 
@@ -22,15 +22,36 @@ router.post('/register', async (req, res) => {
       abortEarly: false
     })
     if(validationResult.error) {
-//      return res.send(joiErrorFormatter(validationResult.error))
-     return res.render('register', { message: 'Validation Errors' })
+      return res.render('register', {
+       message: {
+         type: 'error',
+         body: 'Validation Errors'
+       },
+       errors: joiErrorFormatter(validationResult.error),
+       formData: req.body
+     })
     }
     const user = await addUser(req.body)
-    return res.render('register', { message: 'Merci pour votre inscription' })
+    return res.render('register', { 
+      message: {
+        type: 'success',
+        body: 'Merci pour votre inscription'
+      },
+      errors: {},
+      formData: req.body
+    })
   } catch(e) {
     console.error(e)
-    return res.send(mongooseErrorFormatter(e))
-    return res.status(400).render('register', { message: 'Inscription échouée' })
+//    return res.send(mongooseErrorFormatter(e))
+    return res.status(400).render('register', {
+      message: {
+        type: 'error',
+        body: 'Validation Errors'
+      },
+      errors: mongooseErrorFormatter(e),
+      formData: req.body
+    })
+//    return res.status(400).render('register', { message: 'Inscription échouée' })
   }
 })
 
