@@ -4,12 +4,12 @@ const { addUser } = require('../modules/users/service/userService')
 const { registerSchema } = require('../modules/users/validation/authValidation')
 const { joiErrorFormatter, mongooseErrorFormatter } = require('../utils/validationFormatter')
 const passport = require('passport')
-
+const guestMiddleware = require('../middlewares/guestMiddleware')
 
 /**
  * Shows page for registration
  */
-router.get('/register', (req, res) => {
+router.get('/register', guestMiddleware, (req, res) => {
   return res.render('register', { message: {}, formData: {}, errors: {} })
 })
 
@@ -17,7 +17,7 @@ router.get('/register', (req, res) => {
 /**
  * Handle user Registration
  */
-router.post('/register', async (req, res) => {
+router.post('/register', guestMiddleware, async (req, res) => {
   try{
     const validationResult = registerSchema.validate(req.body, {
       abortEarly: false
@@ -61,7 +61,7 @@ router.post('/register', async (req, res) => {
 /**
  * Shows page for Log in
  */
-router.get('/login', (req, res) => {
+router.get('/login', guestMiddleware, (req, res) => {
   return res.render('login', { message: {}, formData: {}, errors: {} })
 })
 
@@ -69,9 +69,9 @@ router.get('/login', (req, res) => {
  * Logs in a user
  */
 
-router.post('/login', passport.authenticate('local', {
-  successRedirect: '/login-success',
-  failureRedirect: 'login-failed'
+router.post('/login', guestMiddleware, passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login'
   }), (req, res) => {
     return res.render('login', {
       message: {
