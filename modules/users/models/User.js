@@ -24,6 +24,7 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Mot de passe requis'],
+ //   bcrypt: true
   },
   isActive: {
     type: Boolean,
@@ -37,12 +38,30 @@ const userSchema = mongoose.Schema({
   timestamps: true
 })
 
-userSchema.pre('save', async function(next) {
-  if(! this.isModified('password')) next()
+userSchema.pre('save', function (next) {
 
-  this.password = bcrypt.hash(this.password, 10)
-  next()
+  console.log("je suis la")
+  const user = this;
+
+  if (!user.isModified('password')) {
+    return next()
+  }
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) return next(err)
+    bcrypt.hash(user.password, salt, (hashErr, hash) => {
+      if (hashErr) return next(hashErr)
+      user.password = hash
+      next()
+    })
+  })
+
 })
+
+userSchema.methods.checkPassword = async function (password) {
+  console.log("je suis laAA")
+  const result = await bcrypt.compare(password, this.password)
+  return result
+}
 
 const User = mongoose.model('users', userSchema)
 
