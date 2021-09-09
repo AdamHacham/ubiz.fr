@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
 const bodyParser = require('body-parser')
@@ -10,6 +11,7 @@ require('./utils/authStrategies/localStrategie')
 const authMiddleware = require('./middlewares/authMiddleware')
 const authRoutes = require('./routes/authRoutes')
 const app = express()
+const config = require('./utils/config')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.set('view engine', 'ejs')
@@ -47,8 +49,9 @@ app.use( (req, res, next) => {
   res.status(404).render("404")
 })
 
-app.listen(3000, () => {
-  console.log('server running at port 3000')
+
+app.listen(config.port, () => {
+  console.log(`Server running at port ${config.port}`)
 })
 
 module.exports = app

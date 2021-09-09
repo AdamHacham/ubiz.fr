@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const config = require('./config')
 
-mongoose.connect(`mongodb://ubiz_root:tahadam.2106@ubiz.fr:27017/ubizStore`, { 
+mongoose.connect(config.mongoUrl, {
    tls: true,
    useNewUrlParser: true,
    useUnifiedTopology: true
