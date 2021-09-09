@@ -54,7 +54,6 @@ userSchema.path('email').validate(async (email) => {
  */
 userSchema.pre('save', function (next) {
 
-  console.log("je suis la")
   const user = this;
 
   if (!user.isModified('password')) {
@@ -72,7 +71,6 @@ userSchema.pre('save', function (next) {
 })
 
 userSchema.methods.checkPassword = async function (password) {
-  console.log("je suis laAA")
   const result = await bcrypt.compare(password, this.password)
   return result
 }

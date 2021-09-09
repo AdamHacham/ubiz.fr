@@ -45,7 +45,6 @@ router.post('/register', guestMiddleware, async (req, res) => {
     }
     return res.redirect('/register')
   } catch(e) {
-    console.error(e)
     req.session.flashData = {
       message: {
         type: 'error',
@@ -73,6 +72,7 @@ router.get('/login', guestMiddleware, flasherMiddleware, (req, res) => {
 
 router.post('/login', guestMiddleware, (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
+   console.log(err, user, info)
    if (err) {
      console.error('Err : ', err)
      req.session.flashData = {
@@ -87,7 +87,7 @@ router.post('/login', guestMiddleware, (req, res, next) => {
      req.session.flashData = {
        message: {
          type: 'error',
-         body: info.error
+         body: info.message
        }
      }
      return  res.redirect('/login')

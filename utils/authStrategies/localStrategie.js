@@ -8,9 +8,9 @@ passport.use(new LocalStrategy({
   async (email, password, done) => {
     try {
       const user = await User.findOne({ email })
-      if (!user) return done(null, false, { error: 'Identifiant inconnu' })
+      if (!user) return done(null, false, { message: 'Identifiant inconnu' })
       if(await user.checkPassword(password)) return done(null, user)
-      return done(null, false, { error: 'Mot de passe incorrect' })
+      return done(null, false, { message: 'Mot de passe incorrect' })
     } catch(e) {
       return done(e)
     }
