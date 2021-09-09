@@ -38,6 +38,20 @@ const userSchema = mongoose.Schema({
   timestamps: true
 })
 
+
+/**
+ *  Validation unique E-mail
+ */
+userSchema.path('email').validate(async (email) => {
+    const emailCount = await mongoose.models.users.countDocuments({ email })
+    return !emailCount
+}, 'cette adresse email existe déjà')
+
+
+
+/**
+ *  Encrypt password if value is changed
+ */
 userSchema.pre('save', function (next) {
 
   console.log("je suis la")
