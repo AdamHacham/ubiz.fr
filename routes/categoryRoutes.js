@@ -4,16 +4,14 @@ const { addCategory } = require('../modules/category/services/categoryService')
 const { createCategorySchema } = require('../modules/category/validations/categoryValidation')
 const { joiErrorFormatter, mongooseErrorFormatter } = require('../utils/validationFormatter')
 // const authMiddleware = require('../middlewares/authMiddleware')
-const flasherMiddleware = require('../middlewares/flasherMiddleware')
-
-/**
+const flasherMiddleware = require('../middlewares/flasherMiddleware') 
+/*
  * Shows page for add category page
  */
-router.get('/category', flasherMiddleware, (req, res) => {
-  return res.render('category/add')
+router.get('/category/create', flasherMiddleware, (req, res) => { 
+  return res.render('category/create')
 })
-
-/**
+/*
  * Handles user registration
  */
 router.post('/category', async (req, res) => {
@@ -52,5 +50,4 @@ router.post('/category', async (req, res) => {
     return res.redirect('/category')
   }
 })
-
 module.exports = router
