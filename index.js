@@ -30,6 +30,16 @@ app.use(express.static('public'))
 app.use(logger('dev'))
 app.use(passport.initialize())
 app.use(passport.session())
+
+
+/**
+ * Global middleware to make logged in user available to the views
+ */
+app.use((req, res, next) => {
+  res.locals.user = req.isAuthenticated() ? req.user : null
+  return next()
+})
+
 app.locals.message = {}
 app.locals.formData = {}
 app.locals.errors = {}
