@@ -40,6 +40,11 @@ app.use((req, res, next) => {
   return next()
 })
 
+/*
+ *  App level locals
+ */
+
+app.locals.title= 'Ubiz.fr'
 app.locals.message = {}
 app.locals.formData = {}
 app.locals.errors = {}
