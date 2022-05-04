@@ -6,3 +6,8 @@ node_modules/
 .env.test
 
 
+DJANGO_SECRET_KEY=django-insecure-h04b!9pdi9daas97kosy6hsh6fc86c6(-eb3err$j)&fk21w&0
+POSTGRES_NAME=postgres
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+DB_HOST=localhost
